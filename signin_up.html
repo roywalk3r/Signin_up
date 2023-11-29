@@ -19,7 +19,7 @@
         <i class="fas fa-times"></i>
       </div>
       <div class="tony">
-        <img src="tonny.png" alt="" />
+        <img src="tonny.png" alt="tonny" />
       </div>
       <div class="formcontainer formlogin active" id="loginForm">
         <h2 class="loginHeader">LogIn</h2>
@@ -48,8 +48,8 @@
           <div
             class="h-captcha"
             data-sitekey="13c39413-cf3c-4bc7-aacd-da5274d158d9"
-            data-name="h-captcha-response"
           ></div>
+
           <div id="loginWarnings" class="warning"></div>
 
           <input type="submit" value="Login" class="submitForm" />
@@ -61,7 +61,7 @@
       <div class="formcontainer formsignup" id="signupForm">
         <h2 class="loginHeader">SignUp</h2>
         <p class="welcomeback">Get your Account today !!!</p>
-        <form action="test.php" class="login" id="signupform" method="post">
+        <form action="#" class="login" id="signupform" method="post">
           <input
             type="text"
             name="usernameEmail"
@@ -121,54 +121,6 @@
     <!-- 
       
    -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        document
-          .getElementById("loginform")
-          .addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            // Get form data
-            var usernameEmail = document.getElementById("usernameEmail").value;
-            var loginPassword = document.getElementById("loginPassword").value;
-
-            // Create FormData object
-            var formData = new FormData();
-            formData.append("usernameEmail", usernameEmail);
-            formData.append("loginPassword", loginPassword);
-
-            // Send AJAX request
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "test1.php", true);
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState == 4 && xhr.status == 200) {
-                document.getElementById("loginWarnings").innerHTML =
-                  xhr.responseText;
-              }
-            };
-            xhr.send(formData);
-          });
-      });
-    </script>
-    <script>
-      $(document).ready(function () {
-        $("#signupform").submit(function (e) {
-          e.preventDefault();
-
-          $.ajax({
-            type: "POST",
-            url: "test.php",
-            data: $(this).serialize(),
-            success: function (response) {
-              $("#warnings").html(response);
-            },
-            error: function () {
-              $("#warnings").html("An error occurred. Please try again.");
-            },
-          });
-        });
-      });
-    </script>
 
     <script
       src="https://kit.fontawesome.com/00a449879e.js"

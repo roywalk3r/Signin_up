@@ -1,45 +1,45 @@
-// ajax.js
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("loginform")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
 
-// $(document).ready(function () {
-//   $("#signupform").submit(function (event) {
-//     event.preventDefault();
+      // Get form data
+      var usernameEmail = document.getElementById("usernameEmail").value;
+      var loginPassword = document.getElementById("loginPassword").value;
 
-//     // Clear previous warnings
-//     $("#warnings").empty();
+      // Create FormData object
+      var formData = new FormData();
+      formData.append("usernameEmail", usernameEmail);
+      formData.append("loginPassword", loginPassword);
 
-//     // Perform AJAX request
-//     $.ajax({
-//       type: "POST",
-//       url: "form_validation.php", // Replace with the actual file name
-//       data: {
-//         usernameEmail: $("#signupform input[name='usernameEmail']").val(),
-//         password: $("#signupform input[name='password']").val(),
-//         confirmPassword: $("#signupform input[name='confirmPassword']").val(),
-//         "g-recaptcha-response": grecaptcha.getResponse(), // Fetch reCAPTCHA response
-//       },
-//       dataType: "json", // Expect JSON response
-//       success: function (response, textStatus, jqXHR) {
-//         if (jqXHR.status === 200) {
-//           // Successful response
-//           if (response.success) {
-//             // Display success message on the form
-//             alert(response.success);
-//             // You can update the UI or show a success message here
-//           } else {
-//             console.log("Unexpected response format:", response);
-//           }
-//         } else {
-//           // Error response
-//           $("#warnings").html(
-//             "<p class='warning'>" + jqXHR.responseText + "</p>"
-//           );
-//         }
-//       },
-//       error: function (jqXHR, textStatus, errorThrown) {
-//         console.log("AJAX Error:", textStatus, errorThrown);
-//       },
-//     });
-//   });
-// });
+      // Send AJAX request
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "test1.php", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          document.getElementById("loginWarnings").innerHTML = xhr.responseText;
+        }
+      };
+      xhr.send(formData);
+    });
 
+  // Pick details from form and send to php file for validation and  return results
+  $(document).ready(function () {
+    $("#signupform").submit(function (e) {
+      e.preventDefault();
 
+      $.ajax({
+        type: "POST",
+        url: "test.php",
+        data: $(this).serialize(),
+        success: function (response) {
+          $("#warnings").html(response);
+        },
+        error: function () {
+          $("#warnings").html("An error occurred. Please try again.");
+        },
+      });
+    });
+  });
+});

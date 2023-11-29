@@ -7,28 +7,48 @@ function sanitizeInput($input)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate the hCaptcha
-    $hcaptcha_secret_key = "ES_5df64bdda3b6418d8a6fc4336c14b22d";
-    $hcaptcha_response = $_POST["h-captcha-response"];
-    $hcaptcha_url = "https://hcaptcha.com/siteverify";
+    error_log(print_r($_POST, true));
+    // // Validate the hCaptcha
+    // $hcaptcha_secret_key = "ES_5df64bdda3b6418d8a6fc4336c14b22d";
+    // $hcaptcha_response = $_POST["h-captcha-response"];
+    // $hcaptcha_url = "https://hcaptcha.com/siteverify";
 
-    $hcaptcha_data = array(
-        'secret' => $hcaptcha_secret_key,
-        'response' => $hcaptcha_response
+    // $hcaptcha_data = array(
+    //     'secret' => $hcaptcha_secret_key,
+    //     'response' => $hcaptcha_response
+    // );
+
+    // // Verify hCaptcha
+    // $verify = curl_init();
+    // curl_setopt($verify, CURLOPT_URL, $hcaptcha_url);
+    // curl_setopt($verify, CURLOPT_POST, true);
+    // curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_data));
+    // curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+
+    // $response = curl_exec($verify);
+    // curl_close($verify);
+
+    // $responseData = json_decode($response);
+
+    // if (!$responseData->success) {
+    //     echo "hCaptcha verification failed. Please try again.";
+    //     exit;
+    // }
+    $data = array(
+        'secret' => "ES_5df64bdda3b6418d8a6fc4336c14b22d",
+        'response' => $_POST['h-captcha-response']
     );
-
     $verify = curl_init();
-    curl_setopt($verify, CURLOPT_URL, $hcaptcha_url);
+    curl_setopt($verify, CURLOPT_URL, "https://hcaptcha.com/siteverify");
     curl_setopt($verify, CURLOPT_POST, true);
-    curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_data));
+    curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-
     $response = curl_exec($verify);
-    curl_close($verify);
-
+    // var_dump($response);
     $responseData = json_decode($response);
-
-    if (!$responseData->success) {
+    if ($responseData->success) {
+        echo "hCaptcha verification Passed. ";
+    } else {
         echo "hCaptcha verification failed. Please try again.";
         exit;
     }

@@ -60,9 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = null; // You can set a default or leave it null if not applicable
         }
 
-        // Perform additional validations if needed
-        // For example, check password strength, validate email format, etc.
-
         if ($password != $confirmPassword) {
             echo "Passwords do not match. Please try again.";
             exit;
