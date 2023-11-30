@@ -8,30 +8,30 @@ function sanitizeInput($input)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate hCaptcha
-    $hcaptcha_secret_key = "6LcG8SEpAAAAAH6qnkMqbqNJOLebmTMmS4Z8H38z"; // Replace with your actual hCaptcha secret key
-    $hcaptcha_response = $_POST["g-recaptcha-response"];
-    $hcaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
+    // $hcaptcha_secret_key = "ES_5df64bdda3b6418d8a6fc4336c14b22d"; // Replace with your actual hCaptcha secret key
+    // $hcaptcha_response = $_POST["h-captcha-response"];
+    // $hcaptcha_url = "https://hcaptcha.com/siteverify";
 
-    $hcaptcha_data = [
-        'secret' => $hcaptcha_secret_key,
-        'response' => $hcaptcha_response
-    ];
+    // $hcaptcha_data = [
+    //     'secret' => $hcaptcha_secret_key,
+    //     'response' => $hcaptcha_response
+    // ];
 
-    $verify = curl_init();
-    curl_setopt($verify, CURLOPT_URL, $hcaptcha_url);
-    curl_setopt($verify, CURLOPT_POST, true);
-    curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_data));
-    curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+    // $verify = curl_init();
+    // curl_setopt($verify, CURLOPT_URL, $hcaptcha_url);
+    // curl_setopt($verify, CURLOPT_POST, true);
+    // curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_data));
+    // curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
 
-    $response = curl_exec($verify);
-    curl_close($verify);
+    // $response = curl_exec($verify);
+    // curl_close($verify);
 
-    $responseData = json_decode($response);
+    // $responseData = json_decode($response);
 
-    if (!$responseData->success) {
-        echo "hCaptcha verification failed. Please try again.";
-        exit;
-    }
+    // if (!$responseData->success) {
+    //     echo "hCaptcha verification failed. Please try again.";
+    //     exit;
+    // }
 
     // Check if the required keys are set in the $_POST array
     if (isset($_POST["usernameEmail"], $_POST["loginPassword"])) {

@@ -8,7 +8,7 @@
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       defer
     ></script>
-    <script src="https://www.hCaptcha.com/1/api.js" async defer></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
     <link rel="stylesheet" href="signin_up.css" />
     <title>Document</title>
@@ -21,10 +21,10 @@
       <div class="tony">
         <img src="tonny.png" alt="tonny" />
       </div>
-      <div class="formcontainer formlogin active" id="loginForm">
+      <div class="formcontainer formlogin active">
         <h2 class="loginHeader">LogIn</h2>
         <p class="welcomeback">Welcome Back !!!</p>
-        <form action="#" class="login" id="loginform" method="POST">
+        <form id="loginform" action="#" method="POST" class="login">
           <input
             type="text"
             name="usernameEmail"
@@ -46,10 +46,11 @@
             ></i>
           </div>
           <div
-            class="h-captcha"
-            data-sitekey="06ed36f5-8508-4387-996b-8cd561f25c12"
-            id="h-captcha"
+            id="captcha-1"
+            data-theme="dark"
+            data-error-callback="onError"
           ></div>
+
           <div id="loginWarnings" class="warning"></div>
           <input type="submit" value="Login" class="submitForm" />
           <a href="#" class="notmember" onclick="switchForm('signupForm')"
@@ -109,9 +110,10 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <script src="ajax.js"></script>
     <script src="signin_up.js" defer></script>
-    <script src="https://www.hCaptcha.com/1/api.js" async defer></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="toggler.js" defer></script>
@@ -120,5 +122,12 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script>
+      hcaptcha.render("captcha-1", {
+        sitekey: "13c39413-cf3c-4bc7-aacd-da5274d158d9",
+        theme: "dark",
+        "error-callback": "onError",
+      });
+    </script>
   </body>
 </html>
