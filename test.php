@@ -95,12 +95,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Use prepared statements to prevent SQL injection
         $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
         $stmt->bind_param("ss", $username, $hashedPassword);
-
         if ($stmt->execute()) {
-            echo "Your account has been created.!";
+            echo json_encode(["status" => "success", "message" => "Your account has been created."]);
         } else {
-            echo "Error: " . $stmt->error;
+            echo json_encode(["status" => "error", "message" => $stmt->error]);
         }
+        // if ($stmt->execute()) {
+        //     echo "Your account has been created.!";
+        // } else {
+        //     echo "Error: " . $stmt->error;
+        // }
 
         $stmt->close();
         $conn->close();

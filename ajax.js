@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
 
       // Get form data
-      var usernameEmail = document.getElementById("usernameEmail").value;
+      var usernameEmail = document.getElementById("usernameEmail").valuez;
       var loginPassword = document.getElementById("loginPassword").value;
 
       // Create FormData object
@@ -33,8 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
         type: "POST",
         url: "test.php",
         data: $(this).serialize(),
+        dataType: "json", // Expect JSON response
         success: function (response) {
-          $("#warnings").html(response);
+          if (response.status === "success") {
+            $("#warnings").html(response.message);
+          } else {
+            $("#warnings").html("Error: " + response.message);
+          }
         },
         error: function () {
           $("#warnings").html("An error occurred. Please try again.");

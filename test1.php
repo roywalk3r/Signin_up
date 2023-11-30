@@ -7,18 +7,16 @@ function sanitizeInput($input)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    error_log(print_r($_POST, true));
-    // Validate the hCaptcha
-    $hcaptcha_secret_key = "ES_5df64bdda3b6418d8a6fc4336c14b22d";
-    $hcaptcha_response = $_POST["h-captcha-response"];
-    $hcaptcha_url = "https://hcaptcha.com/siteverify";
+    // Validate hCaptcha
+    $hcaptcha_secret_key = "6LcG8SEpAAAAAH6qnkMqbqNJOLebmTMmS4Z8H38z"; // Replace with your actual hCaptcha secret key
+    $hcaptcha_response = $_POST["g-recaptcha-response"];
+    $hcaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
 
-    $hcaptcha_data = array(
+    $hcaptcha_data = [
         'secret' => $hcaptcha_secret_key,
         'response' => $hcaptcha_response
-    );
+    ];
 
-    // Verify hCaptcha
     $verify = curl_init();
     curl_setopt($verify, CURLOPT_URL, $hcaptcha_url);
     curl_setopt($verify, CURLOPT_POST, true);
@@ -34,24 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "hCaptcha verification failed. Please try again.";
         exit;
     }
-    // $data = array(
-    //     'secret' => "ES_5df64bdda3b6418d8a6fc4336c14b22d",
-    //     'response' => $_POST['h-captcha-response']
-    // );
-    // $verify = curl_init();
-    // curl_setopt($verify, CURLOPT_URL, "https://hcaptcha.com/siteverify");
-    // curl_setopt($verify, CURLOPT_POST, true);
-    // curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-    // curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-    // $response = curl_exec($verify);
-    // // var_dump($response);
-    // $responseData = json_decode($response);
-    // if ($responseData->success) {
-    //     echo "hCaptcha verification Passed. ";
-    // } else {
-    //     echo "hCaptcha verification failed. Please try again.";
-    //     exit;
-    // }
 
     // Check if the required keys are set in the $_POST array
     if (isset($_POST["usernameEmail"], $_POST["loginPassword"])) {
@@ -80,22 +60,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $userData = $result->fetch_assoc();
         $stmt->close();
 
-
         if ($userData && password_verify($password, $userData['password'])) {
             // Authentication successful
             $_SESSION['user_id'] = $userData['id']; // Store user ID in session for future use
-            echo "Login successful!";
+            echo "success";
         } else {
             // Authentication failed
-            echo "Invalid username/email or password. Please try again.";
+            echo "error|Invalid username/email or password. Please try again.";
         }
 
         $conn->close();
     } else {
-        echo "Incomplete form submission. Please fill in all required fields.";
+        echo "error|Incomplete form submission. Please fill in all required fields.";
     }
 } else {
-    echo "Invalid request method.";
+    echo "error|Invalid request method.";
 }
-
-error_log(print_r($_POST, true));
