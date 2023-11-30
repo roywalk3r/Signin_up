@@ -45,10 +45,9 @@
               onclick="togglePassword('loginPassword')"
             ></i>
           </div>
-          <div id="captcha-1"></div>
+          <div id="captcha-1" id="hcaptcha-login"></div>
           <div id="loginWarnings" class="warning"></div>
-          <div id="loginLoading" class="loading"></div>
-
+          <div class="fas fa-spinner fa-spin loader" id="loginLoading"></div>
           <input type="submit" value="Login" class="submitForm" />
           <a href="#" class="notmember" onclick="switchForm('signupForm')"
             >Not a member? Signup</a
@@ -92,15 +91,17 @@
               onclick="togglePassword('confirmPassword')"
             ></i>
           </div>
-          <div id="loginLoading" class="loading"></div>
 
           <div
             class="h-captcha"
             data-sitekey="13c39413-cf3c-4bc7-aacd-da5274d158d9"
             theme="dark"
+            id="h-captcha"
           ></div>
 
           <div id="warnings" class="warning"></div>
+          <div class="fas fa-spinner fa-spin loader" id="signupLoading"></div>
+
           <input type="submit" value="SignUp" class="submitForm" />
           <a href="#" class="notmember" onclick="switchForm('loginForm')"
             >Already a member? Login</a

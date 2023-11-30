@@ -3,13 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("loginform")
     .addEventListener("submit", function (event) {
       event.preventDefault();
-
-      // Show loading spinner
-      document.getElementById("loginLoading").style.display = "inline-block";
-
+      // Function to clear all warnings
+      function clearAllWarnings() {
+        document.getElementById("loginWarnings").innerHTML = "";
+      }
       // Get form data
       var usernameEmail = document.getElementById("usernameEmail").value;
       var loginPassword = document.getElementById("loginPassword").value;
+      document.getElementById("loginLoading").style.display = "none";
 
       // Get hCaptcha response
       var hcaptchaResponse = grecaptcha.getResponse();
@@ -20,6 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("usernameEmail", usernameEmail);
       formData.append("loginPassword", loginPassword);
       formData.append("h-captcha-response", hcaptchaResponse);
+
+      // Show loading spinner
+      document.getElementById("loginLoading").style.display = "flex";
 
       // Send AJAX request
       var xhr = new XMLHttpRequest();
@@ -40,14 +44,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       };
       xhr.send(formData);
+      // Event listener for typing (keyup event)
+      document
+        .getElementById("usernameEmail")
+        .addEventListener("keyup", clearAllWarnings);
+      document
+        .getElementById("loginPassword")
+        .addEventListener("keyup", clearAllWarnings);
+      document
+        .getElementById("h-captcha-response")
+        .addEventListener("change", clearAllWarnings);
     });
 
+  //SignuP Form
   // Pick details from form and send to php file for validation and  return results
   $(document).ready(function () {
+    // Function to clear all signup warnings
+    function clearAllSignUpWarnings() {
+      document.getElementById("loginWarnings").innerHTML = "";
+    }
+
+    // Event listener for typing (keyup event)
+    document
+      .getElementById("usernameEmail")
+      .addEventListener("keyup", clearAllSignUpWarnings);
+    document
+      .getElementById("signupPassword")
+      .addEventListener("keyup", clearAllSignUpWarnings);
+    document
+      .getElementById("confirmPassword")
+      .addEventListener("keyup", clearAllSignUpWarnings);
+    document
+      .getElementById("h-captcha")
+      .addEventListener("change", clearAllSignUpWarnings);
+
     $("#signupform").submit(function (e) {
       e.preventDefault();
+
       // Show loading spinner
-      $("#signupLoading").addClass("active");
+      document.getElementById("signupLoading").style.display = "flex";
 
       $.ajax({
         type: "POST",
@@ -57,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
         success: function (response) {
           if (response.status === "success") {
             // Clear input fields after successful submission
+            document.getElementById("signupLoading").style.display = "none";
             document.getElementById("usernameEmail").value = "";
             document.getElementById("signupPassword").value = "";
             document.getElementById("confirmPassword").value = "";
@@ -67,8 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         },
         error: function () {
-          $("#signupLoading").removeClass("active");
-
+          document.getElementById("signupLoading").style.display = "none";
           $("#warnings").html("An error occurred. Please try again.");
         },
       });
