@@ -24,7 +24,7 @@
       <div class="formcontainer formlogin active" id="loginForm">
         <h2 class="loginHeader">LogIn</h2>
         <p class="welcomeback">Welcome Back !!!</p>
-        <form action="#" class="login" id="loginform" method="post">
+        <form action="test1.php" class="login" id="loginform" method="POST">
           <input
             type="text"
             name="usernameEmail"
@@ -47,11 +47,10 @@
           </div>
           <div
             class="h-captcha"
-            data-sitekey="13c39413-cf3c-4bc7-aacd-da5274d158d9"
+            data-sitekey="06ed36f5-8508-4387-996b-8cd561f25c12"
+            id="h-captcha"
           ></div>
-
           <div id="loginWarnings" class="warning"></div>
-
           <input type="submit" value="Login" class="submitForm" />
           <a href="#" class="notmember" onclick="switchForm('signupForm')"
             >Not a member? Signup</a
@@ -61,7 +60,7 @@
       <div class="formcontainer formsignup" id="signupForm">
         <h2 class="loginHeader">SignUp</h2>
         <p class="welcomeback">Get your Account today !!!</p>
-        <form action="#" class="login" id="signupform" method="post">
+        <form action="#" class="login" id="signupform" method="POST">
           <input
             type="text"
             name="usernameEmail"
@@ -112,16 +111,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="ajax.js"></script>
     <script src="signin_up.js" defer></script>
-    <!-- <script src="https://www.google.com/recaptcha/api.js" defer></script> -->
     <script src="https://www.hCaptcha.com/1/api.js" async defer></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="toggler.js" defer></script>
-    <!-- 
-      
-   -->
-
     <script
       src="https://kit.fontawesome.com/00a449879e.js"
       crossorigin="anonymous"

@@ -1,20 +1,9 @@
 <?php
+session_start(); // Start the session for managing user authentication
+
 function sanitizeInput($input)
 {
     return htmlspecialchars(trim($input));
-}
-
-function generateHash($password)
-{
-    $options = [
-        'cost' => 12,
-    ];
-    return password_hash($password, PASSWORD_BCRYPT, $options);
-}
-
-function isEmail($input)
-{
-    return filter_var($input, FILTER_VALIDATE_EMAIL);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -52,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirmPassword = sanitizeInput($_POST["confirmPassword"]);
 
         // Determine if the input is an email or a username
-        if (isEmail($usernameEmail)) {
+        if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
             $email = $usernameEmail;
             $username = null; // You can set a default or leave it null if not applicable
         } else {
@@ -60,13 +49,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = null; // You can set a default or leave it null if not applicable
         }
 
+        // Perform additional validations if needed
+        // For example, check password strength, validate email format, etc.
+
         if ($password != $confirmPassword) {
             echo "Passwords do not match. Please try again.";
             exit;
         }
 
         // Hash the password
-        $hashedPassword = generateHash($password);
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         // Database connection
         $servername = "localhost";
@@ -81,14 +73,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Check if username already exists in the database
+        // Check if username or email already exists in the database
         $checkQuery = $conn->prepare("SELECT id FROM users WHERE username = ?");
-        $checkQuery->bind_param("s", $username);
+        $checkQuery->bind_param("s", $username,);
         $checkQuery->execute();
         $checkQuery->store_result();
 
         if ($checkQuery->num_rows > 0) {
-            echo "Username already exists. Please choose a different one.";
+            echo "Username or email already exists.";
             exit;
         }
 
@@ -97,12 +89,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ss", $username, $hashedPassword);
 
         if ($stmt->execute()) {
-            echo "Your account has been created.!";
+            echo "Registration successful!";
         } else {
             echo "Error: " . $stmt->error;
         }
 
         $stmt->close();
+        $conn->close();
+    } elseif (isset($_POST["usernameEmail"], $_POST["loginPassword"])) {
+        // Login form
+
+        // Sanitize and validate username/email and password
+        $usernameEmail = sanitizeInput($_POST["usernameEmail"]);
+        $password = sanitizeInput($_POST["loginPassword"]);
+
+        // Database connection
+        $servername = "localhost";
+        $username_db = "root";
+        $password_db = "";
+        $dbname = "signin_up";
+
+        $conn = new mysqli($servername, $username_db, $password_db, $dbname);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Fetch user data from the database
+        $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ?");
+        $stmt->bind_param("s", $usernameEmail);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $userData = $result->fetch_assoc();
+        $stmt->close();
+
+        if ($userData && password_verify($password, $userData['password'])) {
+            // Authentication successful
+            $_SESSION['user_id'] = $userData['id']; // Store user ID in session for future use
+            echo "Login successful!";
+        } else {
+            // Authentication failed
+            echo "Invalid username/email or password. Please try again.";
+        }
+
         $conn->close();
     } else {
         echo "Incomplete form submission. Please fill in all required fields.";
@@ -110,3 +140,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Invalid request method.";
 }
+
+error_log(print_r($_POST, true));
