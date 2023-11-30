@@ -1,3 +1,10 @@
+//add hCaptcha manualy
+hcaptcha.render("captcha-1", {
+  sitekey: "13c39413-cf3c-4bc7-aacd-da5274d158d9",
+  theme: "dark",
+  "error-callback": "onError",
+});
+
 // Toggle Password Visible And Hide
 
 function togglePassword(inputId) {
@@ -35,15 +42,20 @@ function togglePassword(inputId) {
 //   }
 // }
 
+// Switch form between login and signup
 function switchForm(formIdToShow) {
   const loginForm = document.getElementById("loginForm");
   const signupForm = document.getElementById("signupForm");
 
   if (formIdToShow === "signupForm") {
+    // Remove active class from loginForm
     loginForm.classList.remove("active");
+    // Add active class to signupForm
     signupForm.classList.add("active");
   } else {
+    // Add active class to loginForm
     loginForm.classList.add("active");
+    // Remove active class from signupForm
     signupForm.classList.remove("active");
   }
 }

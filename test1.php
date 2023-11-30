@@ -7,33 +7,33 @@ function sanitizeInput($input)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate hCaptcha
-    // $hcaptcha_secret_key = "ES_5df64bdda3b6418d8a6fc4336c14b22d"; // Replace with your actual hCaptcha secret key
-    // $hcaptcha_response = $_POST["h-captcha-response"];
-    // $hcaptcha_url = "https://hcaptcha.com/siteverify";
+    // Validate the hCaptcha
+    $hcaptcha_secret_key = "ES_5df64bdda3b6418d8a6fc4336c14b22d";
+    $hcaptcha_response = $_POST["h-captcha-response"];
+    $hcaptcha_url = "https://hcaptcha.com/siteverify";
 
-    // $hcaptcha_data = [
-    //     'secret' => $hcaptcha_secret_key,
-    //     'response' => $hcaptcha_response
-    // ];
+    $hcaptcha_data = array(
+        'secret' => $hcaptcha_secret_key,
+        'response' => $hcaptcha_response
+    );
 
-    // $verify = curl_init();
-    // curl_setopt($verify, CURLOPT_URL, $hcaptcha_url);
-    // curl_setopt($verify, CURLOPT_POST, true);
-    // curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_data));
-    // curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+    // Verify hCaptcha
+    $verify = curl_init();
+    curl_setopt($verify, CURLOPT_URL, $hcaptcha_url);
+    curl_setopt($verify, CURLOPT_POST, true);
+    curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_data));
+    curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
 
-    // $response = curl_exec($verify);
-    // curl_close($verify);
+    $response = curl_exec($verify);
+    curl_close($verify);
 
-    // $responseData = json_decode($response);
+    $responseData = json_decode($response);
 
-    // if (!$responseData->success) {
-    //     echo "hCaptcha verification failed. Please try again.";
-    //     exit;
-    // }
+    if (!$responseData->success) {
+        echo "hCaptcha verification failed. Please try again.";
+        exit;
+    }
 
-    // Check if the required keys are set in the $_POST array
     if (isset($_POST["usernameEmail"], $_POST["loginPassword"])) {
         // Sanitize and validate username/email and password
         $usernameEmail = sanitizeInput($_POST["usernameEmail"]);
@@ -58,21 +58,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $result = $stmt->get_result();
         $userData = $result->fetch_assoc();
+
         $stmt->close();
+
 
         if ($userData && password_verify($password, $userData['password'])) {
             // Authentication successful
             $_SESSION['user_id'] = $userData['id']; // Store user ID in session for future use
-            echo "success";
+            echo "Login successful!";
         } else {
             // Authentication failed
-            echo "error|Invalid username/email or password. Please try again.";
+            echo "invalid Credentials. Please try again.";
         }
 
         $conn->close();
     } else {
-        echo "error|Incomplete form submission. Please fill in all required fields.";
+        echo "Incomplete form submission. Please fill in all required fields.";
     }
 } else {
-    echo "error|Invalid request method.";
+    echo "Invalid request method.";
 }

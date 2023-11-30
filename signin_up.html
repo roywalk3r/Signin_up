@@ -21,10 +21,10 @@
       <div class="tony">
         <img src="tonny.png" alt="tonny" />
       </div>
-      <div class="formcontainer formlogin active">
+      <div class="formcontainer formlogin active" id="loginForm">
         <h2 class="loginHeader">LogIn</h2>
         <p class="welcomeback">Welcome Back !!!</p>
-        <form id="loginform" action="#" method="POST" class="login">
+        <form action="#" class="login" id="loginform" method="POST">
           <input
             type="text"
             name="usernameEmail"
@@ -45,13 +45,10 @@
               onclick="togglePassword('loginPassword')"
             ></i>
           </div>
-          <div
-            id="captcha-1"
-            data-theme="dark"
-            data-error-callback="onError"
-          ></div>
-
+          <div id="captcha-1"></div>
           <div id="loginWarnings" class="warning"></div>
+          <div id="loginLoading" class="loading"></div>
+
           <input type="submit" value="Login" class="submitForm" />
           <a href="#" class="notmember" onclick="switchForm('signupForm')"
             >Not a member? Signup</a
@@ -95,9 +92,12 @@
               onclick="togglePassword('confirmPassword')"
             ></i>
           </div>
+          <div id="loginLoading" class="loading"></div>
+
           <div
             class="h-captcha"
             data-sitekey="13c39413-cf3c-4bc7-aacd-da5274d158d9"
+            theme="dark"
           ></div>
 
           <div id="warnings" class="warning"></div>
@@ -110,7 +110,6 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
-    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <script src="ajax.js"></script>
     <script src="signin_up.js" defer></script>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
@@ -122,12 +121,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script>
-      hcaptcha.render("captcha-1", {
-        sitekey: "13c39413-cf3c-4bc7-aacd-da5274d158d9",
-        theme: "dark",
-        "error-callback": "onError",
-      });
-    </script>
   </body>
 </html>
