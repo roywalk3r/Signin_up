@@ -61,28 +61,19 @@ document.addEventListener("DOMContentLoaded", function () {
   $(document).ready(function () {
     // Function to clear all signup warnings
     function clearAllSignUpWarnings() {
-      document.getElementById("loginWarnings").innerHTML = "";
+      $("#loginWarnings").html(""); // Use jQuery to clear warnings
     }
 
-    // Event listener for typing (keyup event)
-    document
-      .getElementById("usernameEmail")
-      .addEventListener("keyup", clearAllSignUpWarnings);
-    document
-      .getElementById("signupPassword")
-      .addEventListener("keyup", clearAllSignUpWarnings);
-    document
-      .getElementById("confirmPassword")
-      .addEventListener("keyup", clearAllSignUpWarnings);
-    document
-      .getElementById("h-captcha")
-      .addEventListener("change", clearAllSignUpWarnings);
+    // Event listener for typing (input event)
+    $(
+      "#usernameEmail, #signupPassword, #confirmPassword, #h-captcha-response"
+    ).on("input", clearAllSignUpWarnings);
 
     $("#signupform").submit(function (e) {
       e.preventDefault();
 
       // Show loading spinner
-      document.getElementById("signupLoading").style.display = "flex";
+      $("#signupLoading").css("display", "flex");
 
       $.ajax({
         type: "POST",
@@ -90,21 +81,25 @@ document.addEventListener("DOMContentLoaded", function () {
         data: $(this).serialize(),
         dataType: "json", // Expect JSON response
         success: function (response) {
+          $("#signupLoading").css("display", "none");
+
           if (response.status === "success") {
             // Clear input fields after successful submission
-            document.getElementById("signupLoading").style.display = "none";
-            document.getElementById("usernameEmail").value = "";
-            document.getElementById("signupPassword").value = "";
-            document.getElementById("confirmPassword").value = "";
-            grecaptcha.reset(); // Reset reCAPTCHA
+            $("#usernameEmail, #signupPassword, #confirmPassword").val("");
+
+            // Reset hCaptcha
+            grecaptcha.reset();
             $("#warnings").html(response.message);
           } else {
             $("#warnings").html("Error: " + response.message);
           }
         },
         error: function () {
-          document.getElementById("signupLoading").style.display = "none";
-          $("#warnings").html("An error occurred. Please try again.");
+          $("#signupLoading").css("display", "none");
+          $("#warnings").html(
+            "An error occurred." + response.message,
+            "Please try again."
+          );
         },
       });
     });

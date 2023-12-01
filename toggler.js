@@ -5,6 +5,11 @@ hcaptcha.render("captcha-1", {
   "error-callback": "onError",
 });
 
+hcaptcha.render("h-captcha", {
+  sitekey: "13c39413-cf3c-4bc7-aacd-da5274d158d9",
+  theme: "dark",
+  "error-callback": "onError",
+});
 // Toggle Password Visible And Hide
 
 function togglePassword(inputId) {
@@ -21,26 +26,6 @@ function togglePassword(inputId) {
     eyeIcon.classList.add("fa-eye-slash");
   }
 }
-// Switch Forms
-
-// function switchForm(formIdToShow) {
-//   const loginForm = document.getElementById("loginForm");
-//   const signupForm = document.getElementById("signupForm");
-
-//   if (formIdToShow === "signupForm") {
-//     loginForm.style.opacity = 0;
-//     loginForm.style.pointerEvents = "none";
-
-//     signupForm.style.opacity = 1;
-//     signupForm.style.pointerEvents = "auto";
-//   } else {
-//     loginForm.style.opacity = 1;
-//     loginForm.style.pointerEvents = "auto";
-
-//     signupForm.style.opacity = 0;
-//     signupForm.style.pointerEvents = "none";
-//   }
-// }
 
 // Switch form between login and signup
 function switchForm(formIdToShow) {
@@ -58,4 +43,17 @@ function switchForm(formIdToShow) {
     // Remove active class from signupForm
     signupForm.classList.remove("active");
   }
+}
+
+//Show the form when button is clicked
+function toggleSignInUpForm() {
+  var formContainer = document.getElementById("formContainer");
+  formContainer.style.display = "flex";
+  formContainer.classList.remove("hidden");
+}
+
+function toggleHideForm() {
+  var hideForm = document.getElementById("formContainer");
+  hideForm.classList.toggle("hidden"); // Toggle the 'hidden' class
+  hideForm.classList.add("hidden");
 }

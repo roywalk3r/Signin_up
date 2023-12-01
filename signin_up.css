@@ -12,14 +12,52 @@ html {
 body {
   background: black;
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
+nav {
+  width: 100%;
+  height: 60px;
+  background: #1c1c1c;
+  align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  padding: 20px;
+}
+nav ul li a {
+  text-decoration: none;
+}
+nav ul {
+  list-style: none;
+}
+.log-in {
+  width: 50px;
+  height: 30px;
+  padding: 5px 10px;
+  background-color: #6333a6;
+  color: #fff;
+}
+.logo {
+  width: 50px;
+  border-radius: 50%;
+  height: 50px;
+}
+.logo img {
+  width: 50px;
+  height: 50px;
+}
 .logform-container {
   position: relative;
   max-width: 800px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  display: flex;
+  display: none;
+  transition: display 0.5s ease;
   /* gap: 1.5rem; */
   justify-content: space-between;
   box-shadow: 10px 9px rgba(0, 0, 0, 0.35);
@@ -27,8 +65,20 @@ body {
   padding: 70px;
   background: #1c1c1c;
   margin-top: 5%;
+  animation: fade-in-top 0.5s ease-in-out forwards;
+  align-self: center;
 }
 
+@keyframes fade-in-top {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .tony {
   position: relative;
   width: 32px;
@@ -166,4 +216,24 @@ body {
   justify-content: center;
   display: none;
   align-items: center;
+  align-self: center;
+}
+.signUpHcaptcha {
+  background-color: #1f1f1f; /* Dark background color */
+  color: #ffffff; /* Light text color */
+}
+
+.hidden {
+  opacity: 0;
+  animation: fadeOutDown 0.5s ease-in-out forwards; /* Fade-out animation */
+}
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }

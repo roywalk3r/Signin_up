@@ -14,8 +14,37 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="logform-container">
-      <div class="close">
+    <header>
+      <div class="logo">
+        <a href="#"><img src="tonny.png" /></a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">About</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">BLog</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">Services</a></li>
+        </ul>
+        <input
+          type="submit"
+          value="login"
+          id="showLoginFormButton"
+          class="log-in"
+          onclick="toggleSignInUpForm()"
+        />
+      </nav>
+    </header>
+    <div class="logform-container" id="formContainer">
+      <div class="close" id="hideForm" onclick="toggleHideForm()">
         <i class="fas fa-times"></i>
       </div>
       <div class="tony">
@@ -92,12 +121,7 @@
             ></i>
           </div>
 
-          <div
-            class="h-captcha"
-            data-sitekey="13c39413-cf3c-4bc7-aacd-da5274d158d9"
-            theme="dark"
-            id="h-captcha"
-          ></div>
+          <div theme="dark" id="h-captcha"></div>
 
           <div id="warnings" class="warning"></div>
           <div class="fas fa-spinner fa-spin loader" id="signupLoading"></div>
