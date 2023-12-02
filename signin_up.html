@@ -15,25 +15,23 @@
   </head>
   <body>
     <header>
-      <div class="logo">
-        <a href="#"><img src="tonny.png" /></a>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#">Home</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">About</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">BLog</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">Services</a></li>
-        </ul>
+      <div class="container nav">
+        <i class="fas fa-bars menu" id="menu" [class]="expression"></i>
+        <a href="#" class="logo"> Film<span>Flix</span> </a>
+        <nav class="navbar">
+          <ul class="navlinks">
+            <li><a href="#">Browse</a></li>
+            <li><a href="#">Movies</a></li>
+            <li><a href="#">TV Shows</a></li>
+            <li><a href="#">Kids</a></li>
+          </ul>
+        </nav>
+        <div class="search-box">
+          <input type="search" id="search-input" placeholder="Search movie" />
+          <i class="bx bx-search" id="search-icon"></i>
+          <!-- <div class="results-container container" id="resultsContainer">
+          </div> -->
+        </div>
         <input
           type="submit"
           value="login"
@@ -41,7 +39,7 @@
           class="log-in"
           onclick="toggleSignInUpForm()"
         />
-      </nav>
+      </div>
     </header>
     <div class="logform-container" id="formContainer">
       <div class="close" id="hideForm" onclick="toggleHideForm()">
@@ -136,7 +134,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="ajax.js"></script>
-    <script src="signin_up.js" defer></script>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>

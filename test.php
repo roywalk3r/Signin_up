@@ -75,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $dbname = "signin_up";
 
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
+        $signupDate = date("Y-m-d H:i:s");
 
         // Check connection
         if ($conn->connect_error) {
@@ -93,8 +94,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Use prepared statements to prevent SQL injection
-        $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-        $stmt->bind_param("ss", $username, $hashedPassword);
+        $stmt = $conn->prepare("INSERT INTO users (username, password, signup_date) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username, $hashedPassword, $signupDate);
+        // $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+        // $stmt->bind_param("ss", $username, $hashedPassword);
         if ($stmt->execute()) {
             echo json_encode(["status" => "success", "message" => "Your account has been created."]);
         } else {

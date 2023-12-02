@@ -1,55 +1,311 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  color: #fff;
+  text-transform: capitalize;
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+  color: white;
+}
+
+:root {
+  /**
+   * colors
+   */
+
+  --disqus-comment-button: #d32eff;
+  --rich-black-fogra-29: hsl(225, 25%, 9%);
+  --rich-black-fogra-39: hsl(170, 21%, 5%);
+  --raisin-black: hsl(228, 13%, 15%);
+  --eerie-black: hsl(207, 19%, 11%);
+  --light-gray: hsl(0, 3%, 80%);
+  --nav-bg-color: hsl(0, 100%, 50%);
+  --gunmetal-1: hsl(229, 15%, 21%);
+  --gunmetal-2: hsl(216, 22%, 18%);
+  --gainsboro: hsl(0, 7%, 88%);
+  --citrine: hsl(57, 97%, 45%);
+  --xiketic: hsl(253, 21%, 13%);
+  --gray-x: hsl(0, 0%, 74%);
+  --white: hsl(0, 100%, 100%);
+  --black: hsl(0, 0%, 0%);
+  --jet: hsl(0, 0%, 20%);
+
+  --body-color: hsl(200, 18%, 7%);
+  --container-color: #000000;
+  --text-color: #fff;
+  --main-color: #ffb43a;
+  --hover-color: hsl(37 94% 57%);
+
+  /* --body-color: #1e1e2a;
+   --container-color:#2d2e37;
+   --text-color:#fcfeff;
+   --main-color: #ffb43a;
+   --hover-color: hsl(37 94% 57%); */
+
+  /**
+   * typography
+   */
+
+  --ff-poppins: "Poppins", sans-serif;
+
+  /**
+   * spacing
+   */
+
+  --section-padding: 3rem 0 2rem;
+}
+
+/*-----------------------------------*\
+ * #RESET
+\*-----------------------------------*/
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--white);
+}
+
+section {
+  padding: var(--section-padding);
+}
+
+.bx {
+  cursor: pointer;
+  color: var(--text-color);
 }
 
 html {
+  font-family: var(--ff-poppins);
   scroll-behavior: smooth;
 }
+
 body {
-  background: black;
-}
-header {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+    url("../../assets/img/footer-bg.jpg"); */
+  /* background-repeat: repeat; */
+  background: var(--rich-black-fogra-29);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
-nav {
+h1,
+h2,
+h3,
+h4 {
+  color: var(--white);
+  font-family: var(--ff-poppins);
+}
+/* Target the entire scrollbar */
+/* For Chrome, Edge, and newer versions of Firefox */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* For Firefox */
+body {
+  scrollbar-width: thin;
+}
+
+/* Style the scrollbar thumb */
+body::-webkit-scrollbar-thumb {
+  background-color: var(--main-color);
+  border-radius: 10px;
+}
+
+/* Style the scrollbar track */
+body::-webkit-scrollbar-track {
+  background-color: var(--body-color);
+}
+
+/* selection color */
+::selection {
+  background: var(--main-color);
+  color: var(--text-color);
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
   width: 100%;
-  height: 60px;
-  background: #1c1c1c;
-  align-items: flex-end;
+  padding: 10px 15px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #111118;
+  z-index: 100;
+  height: 80px;
+  box-shadow: 5px 9px #111118;
   display: flex;
-  justify-content: flex-end;
-  gap: 1.5rem;
-  padding: 20px;
+  justify-content: center;
 }
-nav ul li a {
-  text-decoration: none;
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
 }
-nav ul {
-  list-style: none;
-}
-.log-in {
-  width: 50px;
-  height: 30px;
-  padding: 5px 10px;
-  background-color: #6333a6;
-  color: #fff;
-}
+
 .logo {
-  width: 50px;
-  border-radius: 50%;
-  height: 50px;
+  font-size: 1.4rem;
+  color: var(--text-color);
+  text-transform: uppercase;
+  font-family: var(--ff-poppins);
+  font-weight: 600;
 }
-.logo img {
-  width: 50px;
-  height: 50px;
+
+.logo span {
+  color: red;
+  font-family: var(--ff-poppins);
+  font-weight: 600;
 }
+.menu {
+  display: none;
+}
+.navbar {
+  display: flex;
+}
+.navlinks {
+  display: flex;
+  gap: 3rem;
+}
+.navlinks li a {
+  position: relative;
+  text-transform: uppercase;
+  padding: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+.navlinks li a:hover {
+  background-color: red;
+  border-radius: 6px;
+}
+.navlinks li a::before {
+  content: "";
+  height: 3px;
+  border-radius: 4px;
+  background-color: red;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 0;
+  /* transition: width 0.3s ease-in-out; */
+  transition: bottom 0.4s ease-in-out;
+}
+
+.navlinks li a:hover::before {
+  width: 100%;
+  bottom: 0;
+}
+
+.search-box {
+  max-width: 380px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 0.7rem;
+  padding: 8px 15px;
+  background: var(--container-color);
+  border-radius: 3rem;
+  margin-right: 1rem;
+  display: flex;
+}
+
+.search-box .bx:hover {
+  color: var(--main-color);
+}
+
+#search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  color: var(--text-color);
+  background: transparent;
+  font-size: 0.938rem;
+}
+
+.signin {
+  color: var(--text-color);
+  background: #d42f2f;
+  padding: 5px 8px;
+  border-radius: 7px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 6px 2px #d42f2f;
+}
+
+@media (max-width: 1020px) {
+  nav {
+    background: red;
+    width: 100%;
+    height: 10vh;
+  }
+  .navbar {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    display: flex;
+    background: red;
+    transition: 0.3s ease-in-out;
+    display: none;
+  }
+
+  .show-navbar {
+    display: flex;
+    transition: 0.5s ease-in-out;
+  }
+
+  .navlinks {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 430px) {
+  .navlinks {
+    gap: 1rem;
+  }
+  .navlinks li a {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 280px) {
+  .navlinks li a {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .search-box {
+    z-index: 500px;
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 430px) {
+  .search-box {
+    max-width: 400px;
+    width: 95%;
+    position: fixed;
+    top: 50px;
+    margin-left: -9px !important;
+  }
+  .navbar {
+    margin-top: 0.5rem;
+  }
+}
+
 .logform-container {
   position: relative;
   max-width: 800px;
@@ -122,6 +378,14 @@ nav ul {
   display: flex;
   column-gap: 10px;
   position: relative;
+}
+
+.log-in {
+  background-color: #6333a6;
+  padding: 4px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
 }
 
 .login input {

@@ -65,6 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($userData && password_verify($password, $userData['password'])) {
             // Authentication successful
             $_SESSION['user_id'] = $userData['id']; // Store user ID in session for future use
+            var_dump($_SESSION['user_id']);
+
             echo "Login successful!";
         } else {
             // Authentication failed

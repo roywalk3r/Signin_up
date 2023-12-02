@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
             grecaptcha.reset(); // Reset reCAPTCHA
             document.getElementById("loginWarnings").innerHTML =
               xhr.responseText;
+            window.location.href = "profile.php";
           }
         }
       };
@@ -51,9 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document
         .getElementById("loginPassword")
         .addEventListener("keyup", clearAllWarnings);
-      document
-        .getElementById("h-captcha-response")
-        .addEventListener("change", clearAllWarnings);
     });
 
   //SignuP Form
