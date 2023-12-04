@@ -25,19 +25,15 @@ if (!isset($_SESSION['user_id'])) {
 
 $userId = $_SESSION['user_id'];
 
-$stmt = $conn->prepare("SELECT username, signup_date FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT username, signup_date, profilePic FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
 
 if ($stmt->execute()) {
-  $stmt->bind_result($username, $signupDate);
-  $stmt->fetch();
-  $stmt->close();
-
-  // Return data in JSON format
-  // echo json_encode(["username" => $username, "signupDate" => $signupDate]);
-} else {
-  echo json_encode(["error" => "Error executing database query"]);
+  $result = $stmt->get_result();
+  $userDetails = $result->fetch_assoc();
 }
+
+$stmt->close();
 
 ?>
 <!DOCTYPE html>
@@ -65,23 +61,27 @@ if ($stmt->execute()) {
   </header>
   <div class="container">
     <div class="right-sidebar">
-      <div class="profile-pic">
-        <!-- Add any profile picture related content here -->
+      <div class="profile-pic" id="profilePicContainer">
+
+        <img src="<?php echo $userDetails['profilePic']; ?>" alt="Profile Picture" id="profilePic">
+        <div class="overlay" id="changePicOverlay">
+          <label for="fileInput">Upload Pic</label>
+          <input type="file" id="fileInput" accept="image/*" onchange="uploadProfilePic()">
+        </div>
       </div>
 
       <div class="user-detail">
         <p class="welcomeMessage">
           <?php
-          // Display a welcome message using PHP
-          if (isset($username)) {
-            echo "Welcome, $username!";
+          if (isset($userDetails['username'])) {
+            echo "Welcome, " . $userDetails['username'] . "!";
           } else {
             echo "Welcome!";
           }
           ?>
         </p>
-        <p>Email: <?php echo $username; ?></p>
-        <p id="signupDate">Join Date: <?php echo $signupDate; ?></p>
+        <p>Email: <?php echo $userDetails['username']; ?></p>
+        <p id="signupDate">Join Date: <?php echo $userDetails['signup_date']; ?></p>
       </div>
       <br>
       <br>
@@ -98,15 +98,15 @@ if ($stmt->execute()) {
       <form class="update-form" id="updateForm" method="post" action="update_email.php">
         <div class="log">
           <label for="JoinDate">Join Date: </label>
-          <input type="text" name="JoinDate" id="JoinDate" value="<?php echo $signupDate; ?>" readonly>
+          <input type="text" name="JoinDate" id="JoinDate" value="<?php echo $userDetails['signup_date']; ?>" readonly>
         </div>
         <div class="log">
           <label for="Email">Email Address: </label>
-          <input type="email" name="Email" id="address" value="<?php echo $username; ?>">
+          <input type="email" name="Email" id="address" value="<?php echo $userDetails['username']; ?>">
         </div>
         <div class="log">
           <label for="Username">Username: </label>
-          <input type="text" name="Username" id="username" value="<?php echo $username; ?>">
+          <input type="text" name="Username" id="username" value="<?php echo $userDetails['username']; ?>">
         </div>
         <div class="log" id="changePasswordOption">
           <a href="#" id="togglePasswordChange">Change Password: </a>
