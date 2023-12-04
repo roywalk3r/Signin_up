@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 header('Content-Type: application/json');
 require_once 'signin_up_conn.php';
 
-function updateProfilePicture($conn, $userId, $file)
+function updateProfilePicture($conn, $username, $file)
 {
     $uploadDirectory = 'uploads/';
 
@@ -17,9 +17,9 @@ function updateProfilePicture($conn, $userId, $file)
     // Check if the file is an image
     if (exif_imagetype($fileTempName)) {
         // Get the current profile picture path
-        $selectQuery = "SELECT profilePic FROM users WHERE id = ?";
+        $selectQuery = "SELECT profilePic FROM users WHERE username = ?";
         $stmtSelect = mysqli_prepare($conn, $selectQuery);
-        mysqli_stmt_bind_param($stmtSelect, "i", $userId);
+        mysqli_stmt_bind_param($stmtSelect, "s", $username);
         mysqli_stmt_execute($stmtSelect);
         mysqli_stmt_bind_result($stmtSelect, $oldFilePath);
         mysqli_stmt_fetch($stmtSelect);
@@ -29,9 +29,9 @@ function updateProfilePicture($conn, $userId, $file)
         move_uploaded_file($fileTempName, $filePath);
 
         // Update the database with the new file path
-        $updateQuery = "UPDATE users SET profilePic = ? WHERE id = ?";
+        $updateQuery = "UPDATE users SET profilePic = ? WHERE username = ?";
         $stmtUpdate = mysqli_prepare($conn, $updateQuery);
-        mysqli_stmt_bind_param($stmtUpdate, "si", $filePath, $userId);
+        mysqli_stmt_bind_param($stmtUpdate, "ss", $filePath, $username);
 
         if (mysqli_stmt_execute($stmtUpdate)) {
             // Return a success response with the new path
@@ -56,7 +56,7 @@ function updateProfilePicture($conn, $userId, $file)
 // Assuming you have a session started
 session_start();
 
-// Get the user ID from the session or wherever it's stored
+// Get the username from the session or wherever it's stored
 $username = $_SESSION['username'];  // Adjust this based on your authentication mechanism
 
 // Check if a file was uploaded
