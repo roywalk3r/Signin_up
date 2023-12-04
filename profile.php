@@ -142,7 +142,44 @@ $stmt->close();
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+  <script>
+    //Upload user Image into db
+    function uploadProfilePic() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
 
+      if (file) {
+        const formData = new FormData();
+        formData.append("profilePic", file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "upload_profile_pic.php", true);
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              // Parse the JSON response
+              const response = JSON.parse(xhr.responseText);
+
+              if (response.success) {
+                // Update the profile picture source after successful upload
+                const newProfilePicUrl = response.newPath;
+                document.getElementById("profilePic").src = newProfilePicUrl;
+              } else {
+                // Handle the case when the upload is not successful
+                console.error("Upload failed:", response.message);
+              }
+            } else {
+              // Handle non-200 HTTP status
+              console.error("HTTP error:", xhr.status);
+            }
+          }
+        };
+
+        xhr.send(formData);
+      }
+    }
+  </script>
   <script src="signin_up.js">
   </script>
 

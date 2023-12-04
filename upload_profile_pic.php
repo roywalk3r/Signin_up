@@ -57,11 +57,11 @@ function updateProfilePicture($conn, $userId, $file)
 session_start();
 
 // Get the user ID from the session or wherever it's stored
-$userId = $_SESSION['user_id'];  // Adjust this based on your authentication mechanism
+$username = $_SESSION['username'];  // Adjust this based on your authentication mechanism
 
 // Check if a file was uploaded
 if (isset($_FILES['profilePic']) && $_FILES['profilePic']['error'] === UPLOAD_ERR_OK) {
-    updateProfilePicture($conn, $userId, $_FILES['profilePic']);
+    updateProfilePicture($conn, $username, $_FILES['profilePic']);
 } else {
     // Return an error response
     echo json_encode(['success' => false, 'message' => 'No file uploaded or upload error']);
