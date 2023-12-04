@@ -73,8 +73,12 @@ a {
 #profilePicContainer {
   position: relative;
   display: inline-block;
+  transition: 0.4s ease;
 }
 
+label {
+  cursor: pointer;
+}
 .overlay {
   position: absolute;
   top: 0;
@@ -89,6 +93,7 @@ a {
   cursor: pointer;
   border-radius: 50%;
   right: 0;
+  transition: 0.4s ease;
 }
 
 #profilePicContainer:hover .overlay {
@@ -102,6 +107,7 @@ a {
 div#profilePicContainer img {
   width: 100%;
   border-radius: 50%;
+  transition: 0.4s ease;
 }
 
 /* Main */
@@ -150,7 +156,7 @@ div#profilePicContainer img {
 img {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
 }
 
 #main-img {

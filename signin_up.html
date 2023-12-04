@@ -14,7 +14,7 @@
     <title>Document</title>
   </head>
   <body>
-    <header>
+    <div class="header">
       <div class="container nav">
         <i class="fas fa-bars menu" id="menu" [class]="expression"></i>
         <a href="#" class="logo"> Film<span>Flix</span> </a>
@@ -40,7 +40,7 @@
           onclick="toggleSignInUpForm()"
         />
       </div>
-    </header>
+    </div>
     <div class="logform-container" id="formContainer">
       <div class="close" id="hideForm" onclick="toggleHideForm()">
         <i class="fas fa-times"></i>
@@ -85,12 +85,6 @@
         <h2 class="loginHeader">SignUp</h2>
         <p class="welcomeback">Get your Account today !!!</p>
         <form action="#" class="login" id="signupform" method="POST">
-          <input
-            type="text"
-            name="usernameEmail"
-            placeholder="Username/Email"
-            required
-          />
           <input
             type="text"
             name="usernameEmail"

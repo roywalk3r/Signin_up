@@ -34,13 +34,18 @@ document.addEventListener("DOMContentLoaded", function () {
           document.getElementById("loginLoading").style.display = "none";
 
           if (xhr.status == 200) {
-            // Clear input fields after successful submission
-            document.getElementById("usernameEmail").value = "";
-            document.getElementById("loginPassword").value = "";
-            grecaptcha.reset(); // Reset reCAPTCHA
-            document.getElementById("loginWarnings").innerHTML =
-              xhr.responseText;
-            window.location.href = "profile.php";
+            if (xhr.responseText.trim() === "Login Successful") {
+              // Clear input fields after successful submission
+              document.getElementById("usernameEmail").value = "";
+              document.getElementById("loginPassword").value = "";
+              grecaptcha.reset(); // Reset reCAPTCHA
+              document.getElementById("loginWarnings").innerHTML =
+                "Login successful";
+              window.location.href = "profile.php"; // Redirect only on successful login
+            } else {
+              document.getElementById("loginWarnings").innerHTML =
+                xhr.responseText;
+            }
           }
         }
       };

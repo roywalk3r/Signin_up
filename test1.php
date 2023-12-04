@@ -1,5 +1,9 @@
 <?php
 session_start(); // Start the session for managing user authentication
+ob_start();
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// session_start();
 
 function sanitizeInput($input)
 {
@@ -62,12 +66,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
 
 
+        ob_end_flush();
         if ($userData && password_verify($password, $userData['password'])) {
             // Authentication successful
-            $_SESSION['user_id'] = $userData['id']; // Store user ID in session for future use
-            var_dump($_SESSION['user_id']);
+            $_SESSION['username'] = $userData['username']; // Store user ID in session for future use
+            // var_dump($_SESSION['user_id']);
 
-            echo "Login successful!";
+            // echo '<script>window.location.href="profile.php"</script>';
+            // header("Location: profile.php");
+            echo "Login Successful";
+            exit; // Terminate the script
+
         } else {
             // Authentication failed
             echo "invalid Credentials. Please try again.";

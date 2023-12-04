@@ -1,7 +1,8 @@
 <?php
+
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['username'])) {
   header("Location: signin_up.html"); // Redirect to your login page
   exit;
 }
@@ -18,15 +19,15 @@ if ($conn->connect_error) {
 }
 
 // Check if the user_id is set in the session
-if (!isset($_SESSION['user_id'])) {
-  echo json_encode(["error" => "User ID not set in the session"]);
+if (!isset($_SESSION['username'])) {
+  echo json_encode(["error" => "username not set in the session"]);
   exit;
 }
 
-$userId = $_SESSION['user_id'];
+$username = $_SESSION['username'];
 
-$stmt = $conn->prepare("SELECT username, signup_date, profilePic FROM users WHERE id = ?");
-$stmt->bind_param("i", $userId);
+$stmt = $conn->prepare("SELECT username, signup_date, profilePic, userEmail FROM users WHERE username = ?");
+$stmt->bind_param("s", $username);
 
 if ($stmt->execute()) {
   $result = $stmt->get_result();
@@ -53,10 +54,16 @@ $stmt->close();
   <header>
     <nav>
       <a href="home.html" class="logo"> Film<span id="flix">Flix</span> </a>
+      <?php
 
-
-      <button type="button" class="login" id="logoutButton">Login</button>
-
+      if (isset($userDetails['username'])) {
+        // User is logged in, so display the logout button
+        echo '<button type="button" class="login" id="logoutButton">Logout</button>';
+      } else {
+        // User is not logged in, so display the login button
+        echo '<button type="button" class="login" id="loginButton">Login</button>';
+      }
+      ?>
     </nav>
   </header>
   <div class="container">
@@ -80,7 +87,7 @@ $stmt->close();
           }
           ?>
         </p>
-        <p>Email: <?php echo $userDetails['username']; ?></p>
+        <p>Email: <?php echo $userDetails['userEmail']; ?> </p>
         <p id="signupDate">Join Date: <?php echo $userDetails['signup_date']; ?></p>
       </div>
       <br>
@@ -95,23 +102,30 @@ $stmt->close();
     <br />
 
     <div class="main-content">
-      <form class="update-form" id="updateForm" method="post" action="update_email.php">
+      <form class="update-form" id="updateForm" method="post" action="#">
+        <!-- Existing fields -->
+        <div id="messageContainer"></div>
+
         <div class="log">
           <label for="JoinDate">Join Date: </label>
           <input type="text" name="JoinDate" id="JoinDate" value="<?php echo $userDetails['signup_date']; ?>" readonly>
         </div>
         <div class="log">
           <label for="Email">Email Address: </label>
-          <input type="email" name="Email" id="address" value="<?php echo $userDetails['username']; ?>">
+          <input type="email" name="Email" id="address" placeholder="add email to enable password recovery" value="<?php echo $userDetails['userEmail']; ?>">
         </div>
         <div class="log">
           <label for="Username">Username: </label>
           <input type="text" name="Username" id="username" value="<?php echo $userDetails['username']; ?>">
         </div>
+
+        <!-- Password change option -->
         <div class="log" id="changePasswordOption">
-          <a href="#" id="togglePasswordChange">Change Password: </a>
+          <label for="changePassword">Change Password: </label>
+          <input type="checkbox" id="changePassword" name="changePassword" onchange="togglePasswordFields()">
         </div>
 
+        <!-- Password change fields (initially hidden) -->
         <div id="passwordChangeFields" class="password-fields-hidden">
           <div class="log">
             <label for="currentPassword">Current Password: </label>

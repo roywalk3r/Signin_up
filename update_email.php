@@ -8,7 +8,7 @@ function sanitizeInput($input)
 }
 // Check if the user is logged in, if not, redirect to the login page
 if (!isset($_SESSION['username'])) {
-    header("Location: index.php"); // Redirect to your login page
+    header("Location: signin_up.php"); // Redirect to your login page
     exit;
 }
 

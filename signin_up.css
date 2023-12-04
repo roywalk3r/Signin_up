@@ -135,7 +135,7 @@ body::-webkit-scrollbar-track {
   padding: 10px 15px;
 }
 
-header {
+.header {
   position: fixed;
   top: 0;
   left: 0;
